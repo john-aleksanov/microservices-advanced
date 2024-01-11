@@ -1,0 +1,48 @@
+---
+services:
+  resource-service:
+    build: ./resource-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - resource-db
+      - service-registry
+
+  song-service:
+    build: ./song-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - song-db
+      - service-registry
+
+  resource-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pg
+      POSTGRES_PASSWORD: pg
+      POSTGRES_DB: resource-service
+    ports:
+      - "5432:5432"
+    volumes:
+      - resource_db_data:/var/lib/postgresql/data
+
+  song-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pg
+      POSTGRES_PASSWORD: pg
+      POSTGRES_DB: song-service
+    ports:
+      - "5433:5432"
+    volumes:
+      - song_db_data:/var/lib/postgresql/data
+
+  service-registry:
+    build: ./service-registry
+    ports:
+      - "8761:8761"
+
+volumes:
+  resource_db_data:
+  song_db_data:

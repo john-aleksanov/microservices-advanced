@@ -1,0 +1,15 @@
+server:
+  port: 8085
+
+spring:
+  servlet:
+    multipart.max-file-size: 10MB
+  jpa:
+    generate-ddl: true
+  application:
+    name: resource-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service-registry:8761/eureka/
